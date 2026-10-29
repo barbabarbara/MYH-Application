@@ -2,6 +2,10 @@
 
 **Interactive Streamlit dashboard for Swedish higher vocational education applications (2020–2025).**
 
+## Live Application
+
+[Open MYH Application Explorer](https://myh-application.streamlit.app/)
+
 Explore how applications to provide *yrkeshögskola* (YH) programmes were approved or rejected, compare application rounds and education areas, search for programme names, and download filtered records.
 
 > **Live dashboard:** Add your `.streamlit.app` URL here after deployment.
