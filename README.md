@@ -65,27 +65,75 @@ MYH-Application-Explorer/
 
 `app.py` finds the CSV relative to its own location, so it works when executed from the repository root on Windows or on Streamlit Community Cloud.
 
+
 ## Run locally
 
-You need Python and `pip` installed. In a terminal, open the repository folder.
+You need Python and `pip` installed. Open a terminal in the repository folder.
 
-**Windows PowerShell:**
+### Windows PowerShell
 
 ```powershell
+# Create a virtual environment
 python -m venv venv
+
+# Activate the virtual environment
 .\venv\Scripts\Activate.ps1
+
+# Install dependencies
 python -m pip install -r requirements.txt
+
+# Start the Streamlit application
 python -m streamlit run app.py
 ```
 
-**macOS / Linux:**
+### Windows Git Bash
 
 ```bash
-python3 -m venv venv
-source venv/bin/activate
+# Create a virtual environment
+python -m venv venv
+
+# Activate the virtual environment
+source venv/Scripts/activate
+
+# Install dependencies
 python -m pip install -r requirements.txt
+
+# Start the Streamlit application
 python -m streamlit run app.py
 ```
+
+### macOS / Linux
+
+```bash
+# Create a virtual environment
+python3 -m venv venv
+
+# Activate the virtual environment
+source venv/bin/activate
+
+# Install dependencies
+python -m pip install -r requirements.txt
+
+# Start the Streamlit application
+python -m streamlit run app.py
+```
+
+### Open the dashboard
+
+After starting Streamlit, open:
+
+http://localhost:8501
+
+To stop the application, press `Ctrl + C` in the terminal.
+
+To deactivate the virtual environment, run:
+
+```bash
+deactivate
+```
+
+**Note:** The `venv/` folder is excluded from Git using `.gitignore`.
+
 
 Open [http://localhost:8501](http://localhost:8501) if the browser doesn't open automatically. Press **Ctrl+C** in the terminal to stop the server.
 
