@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>MYH Dataset Project · Part 2 Presentation</title>
+  <style>
+    :root{--ink:#17303b;--muted:#60767d;--teal:#0f8076;--teal-dark:#09665e;--soft:#e7f6f1;--peach:#f2b58e;--paper:#f3f6f5;--white:#fff;--border:#dce7e5;--shadow:0 25px 70px rgba(13,47,55,.10)}
+    *{box-sizing:border-box} html,body{margin:0;min-height:100%;font-family:Inter,"Segoe UI",Arial,sans-serif;color:var(--ink);background:var(--paper)}
+    body{display:flex;flex-direction:column} a{color:var(--teal-dark);text-decoration-thickness:1px;text-underline-offset:3px} button{font:inherit}
+    .topbar{width:min(1420px,calc(100% - 48px));margin:21px auto 13px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+    .brand{font-weight:850;letter-spacing:.025em;display:flex;align-items:center;gap:10px;font-size:14px}
+    .brand-icon{background:var(--teal);color:#fff;width:30px;height:30px;display:grid;place-items:center;border-radius:10px;font-size:13px}
+    .topbar .meta{color:var(--muted);font-size:13px;font-weight:600}
+    .deck{width:min(1420px,calc(100% - 48px));margin:0 auto;position:relative;aspect-ratio:16/9;min-height:690px;max-height:850px}
+    .slide{position:absolute;inset:0;padding:49px 62px 42px;background:var(--white);border-radius:22px;border:1px solid #e5eceb;box-shadow:var(--shadow);display:none;overflow:hidden;flex-direction:column}
+    .slide.active{display:flex;animation:reveal .24s ease-out}
+    @keyframes reveal{from{opacity:.65;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+    .slide::after{content:"";position:absolute;right:-130px;bottom:-165px;width:360px;height:360px;border:64px solid #eaf4f1;border-radius:50%;pointer-events:none;opacity:.5}
+    .eyebrow{color:var(--teal);font-weight:850;letter-spacing:.13em;text-transform:uppercase;font-size:13px;margin:0 0 14px}
+    h1{font-size:clamp(48px,5.2vw,74px);letter-spacing:-.055em;line-height:1.04;margin:0;font-weight:850;max-width:970px}
+    h2{font-size:clamp(35px,3.5vw,53px);letter-spacing:-.045em;line-height:1.08;margin:0 0 16px;font-weight:840;max-width:1100px}
+    h3{font-size:clamp(17px,1.45vw,23px);margin:0 0 9px;letter-spacing:-.018em}
+    p{margin:0 0 12px;line-height:1.5} .lead{color:var(--muted);font-size:clamp(17px,1.6vw,23px);line-height:1.45;max-width:900px}
+    .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:#799093;font-weight:650;gap:14px;position:relative;z-index:2;padding-top:18px}
+    .foot b{color:var(--teal)} .body{flex:1;min-height:0;position:relative;z-index:1;margin-top:25px}
+    .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}.cols.three{grid-template-columns:repeat(3,1fr)}.cols.lopsided{grid-template-columns:1.1fr .9fr}
+    .card{padding:23px 25px;background:#f7faf9;border:1px solid var(--border);border-radius:16px}.card.white{background:#fff}.card.tint{background:var(--soft);border-color:#ccece5}.card.dark{background:var(--ink);color:#fff;border-color:var(--ink)}
+    .card p:last-child{margin-bottom:0}.card .small{font-size:13px;color:var(--muted)}.card.dark .small{color:#a9c7ca}
+    .number{font-size:clamp(34px,4vw,56px);font-weight:850;letter-spacing:-.045em;line-height:1.05;color:var(--ink)}.card.dark .number{color:#fff}
+    .subnum{font-size:13px;color:var(--muted);margin-top:7px;font-weight:650}
+    .pill{display:inline-flex;align-items:center;gap:8px;background:#e7f5f2;color:#07645d;padding:7px 11px;font-size:12px;font-weight:800;border-radius:99px;margin-bottom:13px}
+    .pill.peach{background:#fff0e5;color:#a15a2e}.pill.dark{background:#254650;color:#c7f6e7}
+    ul{padding-left:19px;margin:10px 0 0}li{margin:0 0 10px;line-height:1.45}li::marker{color:var(--teal)}
+    .muted{color:var(--muted)}.strong{font-weight:800}.highlight{color:var(--teal)}
+    .kv{display:flex;justify-content:space-between;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--border);font-size:15px}.kv:last-child{border-bottom:0}.kv b{font-weight:800}
+    .timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.stage{background:#f4f9f7;border:1px solid var(--border);border-radius:15px;padding:20px;min-height:175px;position:relative}
+    .stage .step{display:inline-grid;place-items:center;width:34px;height:34px;background:var(--teal);color:white;border-radius:11px;font-weight:850;margin-bottom:17px}
+    .stage p{font-size:14px;color:var(--muted)}.stage h3{font-size:19px}
+    .tag{display:inline-block;padding:5px 9px;background:#e9f2f1;color:#365e5d;border-radius:7px;font-size:12px;font-weight:750;white-space:nowrap}
+    code{font-family:Consolas,"SFMono-Regular",monospace;font-size:.88em;color:#0b5b56}
+    .codebox{background:#122e36;color:#eaf8f2;padding:23px 25px;border-radius:14px;font:16px/1.55 Consolas,"SFMono-Regular",monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+    .codebox .key{color:#92e2ca}.codebox .str{color:#ffd6ab}
+    .barrow{display:grid;grid-template-columns:62px 1fr 67px;gap:12px;align-items:center;margin:16px 0}.barrow .year{font-size:14px;font-weight:800}.track{height:24px;border-radius:6px;background:#eaf0ee;overflow:hidden}.fill{height:100%;background:#70bdb1;border-radius:6px}.barrow.best .fill{background:var(--teal)}.barrow.low .fill{background:var(--peach)}.barrow .value{text-align:right;font-weight:800;font-size:14px}
+    .criteria{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.criterion{background:#f7faf9;border:1px solid var(--border);border-radius:14px;padding:18px 19px;min-height:150px}.criterion h3{font-size:18px}.criterion .count{font-size:30px;font-weight:850;color:var(--teal);margin:10px 0}
+    .check{display:flex;align-items:start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border);font-weight:650;line-height:1.35}.check:last-child{border:0}.mark{flex:none;border-radius:50%;background:#dcf4e9;color:var(--teal);width:24px;height:24px;display:grid;place-items:center;font-weight:900}
+    .result{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.result .card{padding:20px}
+    .previewshell{border:1px solid #cfdedc;border-radius:17px;overflow:hidden;background:#fff;box-shadow:0 14px 35px #15343c16}
+    .previewhead{background:#f4f8f7;border-bottom:1px solid var(--border);padding:13px 17px;display:flex;gap:8px;align-items:center}
+    .dot{width:9px;height:9px;border-radius:50%;background:#c9d7d3}.previewtitle{margin-left:11px;font-size:12px;font-weight:800;color:#6f8388}
+    .previewbody{display:grid;grid-template-columns:143px 1fr;min-height:265px}.sidebar{background:#ecf5f2;padding:18px 14px;border-right:1px solid var(--border)}.sidebar .fakefilter{background:#fff;border:1px solid #d8e7e1;border-radius:7px;height:26px;margin:12px 0}
+    .dashmain{padding:18px}.dashstats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.dashstat{background:#f1f7f5;padding:11px 10px;border-radius:7px;font-size:11px;color:#4b6668}.dashstat b{display:block;color:var(--ink);font-size:20px;margin-top:5px}.spark{display:flex;align-items:end;gap:11px;height:94px;margin:28px 15px 3px}.spark span{background:#74b6a6;display:block;width:33px;border-radius:6px 6px 0 0}.spark span:nth-child(5){background:#ecb08c}.spark span:last-child{background:#127a72}
+    .navarea{width:min(1420px,calc(100% - 48px));margin:18px auto 26px;display:flex;align-items:center;gap:18px}
+    .navarea button{border:1px solid #cddfdb;background:white;border-radius:12px;padding:11px 17px;color:var(--ink);font-weight:800;cursor:pointer}.navarea button:hover:not(:disabled){background:var(--soft)}.navarea button:disabled{opacity:.35;cursor:not-allowed}
+    .navarea .progress{flex:1;height:6px;border-radius:99px;background:#dce9e5;overflow:hidden}.navarea .progress > span{height:100%;width:0;background:var(--teal);display:block;transition:width .22s}
+    .navarea .counter{font-weight:800;color:var(--muted);font-size:14px;white-space:nowrap}.shortcuts{font-size:12px;color:var(--muted)}
+    .hint{font-size:13px;color:var(--muted);font-weight:650}.nowrap{white-space:nowrap}.text-sm{font-size:14px}.note{border-left:4px solid var(--teal);background:#eff7f4;padding:13px 18px;border-radius:0 9px 9px 0;color:#355a5d;font-size:14px}
+    .summaryrow{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px}.summaryrow .card{padding:17px}
+    .biglink{display:inline-flex;align-items:center;gap:8px;text-decoration:none;border:1px solid #cce2dc;background:#fff;border-radius:11px;padding:11px 15px;font-weight:800;font-size:14px;color:var(--teal-dark);margin:6px 8px 6px 0}.biglink:hover{background:var(--soft)}
+    .cover{background:#11323a;color:#fff;border-color:#11323a}
+    .cover::before{content:"";position:absolute;width:610px;height:610px;border:115px solid rgba(153,227,208,.11);border-radius:50%;right:-290px;top:-205px;pointer-events:none}
+    .cover::after{border-color:#255861;opacity:.7}.cover .eyebrow{color:#9be1ce}.cover .lead{color:#bbd8d8}.cover .foot{color:#a9c7c8}.cover .foot b{color:#a7e8d7}
+    .cover .metricstrip{display:flex;gap:33px;margin-top:54px;position:relative;z-index:2}
+    .cover .metricstrip>div{padding-right:30px;border-right:1px solid #39626a}.cover .metricstrip>div:last-child{border:0}
+    .cover .metricstrip .value{font-size:36px;font-weight:850;letter-spacing:-.04em}.cover .metricstrip .label{color:#b9d3d2;font-size:13px;margin-top:5px}
+    .slide:focus{outline:none}
+    @media(max-width:1100px){.deck{min-height:740px;aspect-ratio:auto;height:calc(100vh - 145px);max-height:none}.slide{padding:38px 38px 32px;overflow:auto}.body{margin-top:20px}.criteria{gap:9px}.card{padding:17px}.slide::after{opacity:.2}.cover .metricstrip{margin-top:35px}}
+    @media(max-width:740px){.topbar,.deck,.navarea{width:calc(100% - 20px)}.topbar{margin:11px auto}.meta,.shortcuts{display:none}.deck{height:calc(100dvh - 133px);min-height:570px}.slide{border-radius:15px;padding:26px 22px 24px;overflow:auto}.body{overflow:visible}.eyebrow{font-size:11px}h1{font-size:39px}h2{font-size:31px}.lead{font-size:17px}.cols,.cols.lopsided,.cols.three,.criteria,.timeline,.result,.summaryrow{grid-template-columns:1fr}.stage{min-height:auto}.previewbody{grid-template-columns:92px 1fr}.sidebar{padding:12px 8px}.dashstat b{font-size:12px}.dashstats{gap:4px}.dashstat{padding:6px;font-size:9px}.spark{gap:7px}.spark span{width:20px}.number{font-size:37px}.cover .metricstrip{flex-wrap:wrap;gap:20px}.cover .metricstrip .value{font-size:27px}.cover .metricstrip>div{padding-right:18px}.barrow{grid-template-columns:43px 1fr 54px;gap:7px}.card{padding:16px}.navarea{margin:11px auto 15px;gap:10px}.navarea button{padding:9px 10px}.foot{padding-top:16px}}
+    @media print{@page{size:landscape;margin:8mm}body{background:white;display:block}.topbar,.navarea{display:none!important}.deck{margin:0;width:100%;height:auto;max-height:none;min-height:0;aspect-ratio:auto}.slide,.slide.active{display:flex!important;position:relative;width:100%;height:184mm;min-height:184mm;max-height:184mm;break-after:page;page-break-after:always;border-radius:0;box-shadow:none;border:0;padding:14mm 17mm 11mm;animation:none;overflow:hidden}.slide:last-child{break-after:auto;page-break-after:auto}.card{break-inside:avoid}a{text-decoration:none}}
+    @media(prefers-reduced-motion:reduce){.slide.active{animation:none}.navarea .progress > span{transition:none}}
+  </style>
+</head>
+<body>
+  <header class="topbar" aria-label="Presentation heading">
+    <div class="brand"><span class="brand-icon">MYH</span> PYTHONLAB3 <span style="color:#a6b8b6">/</span> PART 2</div>
+    <div class="meta">Individual project overview · HTML presentation</div>
+  </header>
+  <main class="deck" id="deck" aria-label="Slide presentation">
+
+    <!-- 01 -->
+    <section class="slide cover active" aria-label="Title slide" tabindex="-1">
+      <p class="eyebrow">My project</p>
+      <h1>From messy Excel files<br>to a useful dataset.</h1>
+      <p class="lead" style="margin-top:26px">How I explored, cleaned and combined MYH applications from 2020–2025 — and built a Streamlit data explorer.</p>
+      <div class="metricstrip">
+        <div><div class="value">6</div><div class="label">application years</div></div>
+        <div><div class="value">7,641</div><div class="label">application records</div></div>
+        <div><div class="value">33</div><div class="label">final columns</div></div>
+      </div>
+      <div class="foot"><span>Python · pandas · Jupyter · Streamlit</span><span><b>01</b> / My project</span></div>
+    </section>
+
+    <!-- 02 -->
+    <section class="slide" aria-label="Overview" tabindex="-1">
+      <p class="eyebrow">01 / Project overview</p>
+      <h2>What I created</h2>
+      <p class="lead">One documented process, one cleaned dataset, and one app for exploring the results.</p>
+      <div class="body" style="display:flex;flex-direction:column;justify-content:center;gap:19px">
+        <div class="cols three">
+          <article class="card tint"><span class="pill">01 · Prepare</span><h3>Jupyter notebook</h3><p>I explored six source workbooks, cleaned the data, combined the years and checked data quality.</p><div class="hint">Source → Transformation</div></article>
+          <article class="card"><span class="pill">02 · Export</span><h3>CSV dataset</h3><p>I exported a consistent application-level dataset and two reports about data quality and sources.</p><div class="hint">7,641 rows × 33 columns</div></article>
+          <article class="card"><span class="pill">03 · Explore</span><h3>Streamlit app</h3><p>I built filters, charts, summaries and a way to download selected applications.</p><div class="hint">Notebook output → Dashboard</div></article>
+        </div>
+        <div class="note"><b>Project scope:</b> Preparing data for a possible future ML model. I did <b>not</b> train a machine-learning model.</div>
+      </div>
+      <div class="foot"><span>Notebook §§1–8 · Streamlit app</span><span>02 / 11</span></div>
+    </section>
+
+    <!-- 03 -->
+    <section class="slide" aria-label="Source files" tabindex="-1">
+      <p class="eyebrow">02 / Understand the source</p>
+      <h2>Six files. Different structures.</h2>
+      <p class="lead">I used <b>Tabell 3</b> from six public MYH Excel workbooks.</p>
+      <div class="body cols lopsided">
+        <div class="card">
+          <h3>The challenge</h3>
+          <p>The real headers did not start on the same row every year. New columns were also introduced later.</p>
+          <div class="kv"><span>2020–2022</span><b>Headers on row 1</b></div>
+          <div class="kv"><span>2023–2024</span><b>Headers on row 6</b></div>
+          <div class="kv"><span>2025</span><b>Headers on row 7</b></div>
+          <div style="margin-top:19px"><span class="pill peach">16–28 source columns, depending on year</span></div>
+        </div>
+        <div class="card tint">
+          <h3>What I did</h3>
+          <div class="check"><span class="mark">✓</span><span>Opened each workbook and inspected worksheet names.</span></div>
+          <div class="check"><span class="mark">✓</span><span>Found the correct header row before loading the data.</span></div>
+          <div class="check"><span class="mark">✓</span><span>Compared available columns, data types and record counts.</span></div>
+          <div class="check"><span class="mark">✓</span><span>Confirmed <b>7,641 records</b> across the six years.</span></div>
+        </div>
+      </div>
+      <div class="foot"><span>Evidence: Notebook §§2–3 · <a href="https://www.myh.se/yrkeshogskolan/resultat-ansokningsomgangar/resultat-for-program" target="_blank" rel="noopener noreferrer">Official MYH source ↗</a></span><span>03 / 11</span></div>
+    </section>
+
+    <!-- 04 -->
+    <section class="slide" aria-label="Transformation process" tabindex="-1">
+      <p class="eyebrow">03 / Transformation</p>
+      <h2>My cleaning pipeline</h2>
+      <p class="lead">I standardised the files before combining them into one table.</p>
+      <div class="body" style="display:flex;flex-direction:column;justify-content:center;gap:17px">
+        <div class="timeline">
+          <div class="stage"><span class="step">1</span><h3>Read</h3><p>Load the six <code>Tabell 3</code> worksheets with the correct headers.</p></div>
+          <div class="stage"><span class="step">2</span><h3>Harmonise</h3><p>Rename equivalent columns and standardise labels.</p></div>
+          <div class="stage"><span class="step">3</span><h3>Clean</h3><p>Trim text, convert numeric fields and preserve missing data.</p></div>
+          <div class="stage"><span class="step">4</span><h3>Combine</h3><p>Use <code>pd.concat()</code> to combine the six years.</p></div>
+        </div>
+        <div class="cols">
+          <div class="card"><h3>Two examples of renamed columns</h3><div class="kv"><code>Flera studiekommuner</code><b>→</b><code>Flera kommuner</code></div><div class="kv"><code>Examenstyp</code><b>→</b><code>Typ av examen</code></div></div>
+          <div class="card tint"><h3>Consistent decision labels</h3><div class="kv"><code>Avslag</code><b>→</b><code>Ej beviljad</code></div><div class="kv"><code>Landsting</code><b>→</b><code>Region</code></div></div>
+        </div>
+        <p class="hint" style="margin:0">Result after combining: 7,641 rows and 30 columns, before adding three new features.</p>
+      </div>
+      <div class="foot"><span>Evidence: Notebook §4.1–4.2</span><span>04 / 11</span></div>
+    </section>
+
+    <!-- 05 -->
+    <section class="slide" aria-label="Missing data" tabindex="-1">
+      <p class="eyebrow">04 / Data decisions</p>
+      <h2>I kept information honest.</h2>
+      <p class="lead">I checked missing values and duplicates instead of deleting data automatically.</p>
+      <div class="body cols lopsided">
+        <div class="card tint" style="display:flex;flex-direction:column;justify-content:center">
+          <div class="number">53,580</div>
+          <p style="font-weight:800;margin-top:10px">missing cells in the final dataset</p>
+          <p>Many are <b>structural:</b> some fields did not exist in earlier MYH workbooks.</p>
+          <div class="note" style="background:white;margin-top:16px">My decision: keep missing values as missing. A blank value is not the same as zero.</div>
+        </div>
+        <div class="card">
+          <h3>Checks I completed</h3>
+          <div class="check"><span class="mark">✓</span><span><b>0</b> exact duplicate records.</span></div>
+          <div class="check"><span class="mark">✓</span><span><b>0</b> missing application IDs.</span></div>
+          <div class="check"><span class="mark">✓</span><span><b>0</b> repeated IDs within the same year.</span></div>
+          <div class="check"><span class="mark">✓</span><span><b>All 7,641</b> rows kept.</span></div>
+          <p class="muted text-sm" style="margin-top:13px">I also preserved programme-name variations because similar titles do not necessarily mean duplicate applications.</p>
+        </div>
+      </div>
+      <div class="foot"><span>Evidence: Notebook §§4.2–4.3, 6, 8.3</span><span>05 / 11</span></div>
+    </section>
+
+    <!-- 06 -->
+    <section class="slide" aria-label="Feature engineering" tabindex="-1">
+      <p class="eyebrow">05 / Enrichment</p>
+      <h2>I added three useful features.</h2>
+      <p class="lead">I turned existing numbers into easy-to-understand <code>True</code>/<code>False</code> columns.</p>
+      <div class="body" style="display:flex;flex-direction:column;justify-content:center;gap:20px">
+        <div class="criteria">
+          <article class="criterion"><span class="pill">YH-poäng</span><h3>At least 400 YH points</h3><div class="count">4,926</div><div class="muted text-sm">applications with <code>Minst 400 YH-poäng = True</code></div></article>
+          <article class="criterion"><span class="pill">Studietakt %</span><h3>Full-time study pace</h3><div class="count">6,859</div><div class="muted text-sm">applications with <code>Heltidsstudier = True</code></div></article>
+          <article class="criterion"><span class="pill">Antal kommuner</span><h3>Multiple municipalities</h3><div class="count">1,433</div><div class="muted text-sm">applications with <code>Flera kommuner (beräknad) = True</code></div></article>
+        </div>
+        <div class="card tint" style="display:flex;align-items:center;justify-content:space-between;gap:20px"><div><h3>Why I did this</h3><p>Simple derived features make the dataset easier to analyse and may help in future ML work.</p></div><div style="text-align:right;flex:none"><div class="number">30 → 33</div><div class="subnum">columns after enrichment</div></div></div>
+      </div>
+      <div class="foot"><span>Evidence: Notebook §5.1</span><span>06 / 11</span></div>
+    </section>
+
+    <!-- 07 -->
+    <section class="slide" aria-label="Machine learning perspective" tabindex="-1">
+      <p class="eyebrow">06 / Machine-learning perspective</p>
+      <h2>What could a model predict?</h2>
+      <p class="lead">I identified a possible target and checked which columns could cause target leakage.</p>
+      <div class="body cols lopsided">
+        <div class="card">
+          <span class="pill">Possible target: <code>Beslut</code></span>
+          <h3>Application decision</h3>
+          <div class="kv"><span>Approved · <code>Beviljad</code></span><b>2,613</b></div>
+          <div class="kv"><span>Rejected · <code>Ej beviljad</code></span><b>5,027</b></div>
+          <div class="kv"><span>Withdrawn · <code>Återkallad</code></span><b>1</b></div>
+          <p class="muted text-sm" style="margin-top:16px">The withdrawn record stays in the dataset, but a future binary classifier would need to handle it separately.</p>
+        </div>
+        <div class="card tint">
+          <h3>Avoiding target leakage</h3>
+          <p>When predicting a decision, I should not give the model fields that already describe the outcome.</p>
+          <div class="check"><span class="mark">✓</span><span>I identified and excluded <b>9 columns</b> from a preliminary list of model inputs.</span></div>
+          <div class="check"><span class="mark">✓</span><span><b>24 candidate input columns</b> remain for further evaluation.</span></div>
+          <div class="note" style="margin-top:18px;background:#fff">I did not remove these columns from the exported dataset or train a model.</div>
+        </div>
+      </div>
+      <div class="foot"><span>Evidence: Notebook §5.2</span><span>07 / 11</span></div>
+    </section>
+
+    <!-- 08 -->
+    <section class="slide" aria-label="Quality checks and export" tabindex="-1">
+      <p class="eyebrow">07 / Validation & export</p>
+      <h2>I tested the result before exporting.</h2>
+      <p class="lead">My checks confirmed the expected structure and decision consistency.</p>
+      <div class="body" style="display:flex;flex-direction:column;justify-content:center;gap:18px">
+        <div class="result">
+          <div class="card tint"><div class="number">7,641</div><div class="subnum">rows retained</div></div>
+          <div class="card"><div class="number">33</div><div class="subnum">final columns</div></div>
+          <div class="card"><div class="number">6/6</div><div class="subnum">years represented</div></div>
+          <div class="card"><div class="number">0</div><div class="subnum">duplicate rows</div></div>
+        </div>
+        <div class="cols">
+          <div class="card"><h3>Validation checks</h3><p class="text-sm">Yearly counts match the source files; checked numeric fields have no negative values; approval decisions agree with approved-round counts.</p><span class="tag">Notebook §6</span></div>
+          <div class="card tint"><h3>Three files exported</h3><p class="text-sm"><code>myh_applications_2020_2025.csv</code><br><code>myh_quality_report.csv</code><br><code>myh_source_report.csv</code></p><span class="tag">CSV reload check passed</span></div>
+        </div>
+        <p class="hint">The checks passed, but this does not prove that every original source value is correct.</p>
+      </div>
+      <div class="foot"><span>Evidence: Notebook §§6–7</span><span>08 / 11</span></div>
+    </section>
+
+    <!-- 09 -->
+    <section class="slide" aria-label="Findings" tabindex="-1">
+      <p class="eyebrow">08 / Findings</p>
+      <h2>What the data shows</h2>
+      <p class="lead">Approval rates changed across the six application rounds.</p>
+      <div class="body cols lopsided">
+        <div class="card" style="padding:22px 28px">
+          <h3>Approval rate by year</h3>
+          <p class="hint">Scale: 0–50% · Withdrawn excluded from the calculation</p>
+          <div class="barrow"><span class="year">2020</span><div class="track"><div class="fill" style="width:65.32%"></div></div><span class="value">32.66%</span></div>
+          <div class="barrow"><span class="year">2021</span><div class="track"><div class="fill" style="width:68.82%"></div></div><span class="value">34.41%</span></div>
+          <div class="barrow"><span class="year">2022</span><div class="track"><div class="fill" style="width:69.6%"></div></div><span class="value">34.80%</span></div>
+          <div class="barrow"><span class="year">2023</span><div class="track"><div class="fill" style="width:75.84%"></div></div><span class="value">37.92%</span></div>
+          <div class="barrow low"><span class="year">2024</span><div class="track"><div class="fill" style="width:54.08%"></div></div><span class="value">27.04%</span></div>
+          <div class="barrow best"><span class="year">2025</span><div class="track"><div class="fill" style="width:78.1%"></div></div><span class="value">39.05%</span></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div class="card tint"><span class="pill">Overall</span><div class="number">34.20%</div><p class="text-sm">approval rate among 7,640 approved/rejected decisions.</p></div>
+          <div class="card"><h3>Data/IT</h3><div class="kv"><span>Applications</span><b>1,637</b></div><div class="kv"><span>Approved</span><b>20.59%</b></div></div>
+          <div class="note">These are descriptive comparisons. The dataset does not explain <em>why</em> rates differ.</div>
+        </div>
+      </div>
+      <div class="foot"><span>Evidence: Notebook §5.3 · Verified against final CSV</span><span>09 / 11</span></div>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" aria-label="Streamlit app" tabindex="-1">
+      <p class="eyebrow">09 / Streamlit data explorer</p>
+      <h2>I built an app to explore my CSV.</h2>
+      <p class="lead">The notebook prepares the data; the app reads the exported file and visualises it.</p>
+      <div class="body cols lopsided" style="align-items:center">
+        <div class="previewshell" aria-label="Simplified illustration of the dashboard layout, not a live screenshot">
+          <div class="previewhead"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="previewtitle">Dashboard layout · simplified preview</span></div>
+          <div class="previewbody"><div class="sidebar"><div style="font-size:12px;font-weight:850">Filters</div><div class="fakefilter"></div><div class="fakefilter"></div><div class="fakefilter"></div><div class="fakefilter"></div></div><div class="dashmain"><div style="font-weight:850;font-size:19px;letter-spacing:-.02em;margin-bottom:14px">MYH Application Explorer</div><div class="dashstats"><div class="dashstat">Applications<b>7,641</b></div><div class="dashstat">Approved<b>2,613</b></div><div class="dashstat">Rejected<b>5,027</b></div><div class="dashstat">Approval<b>34.20%</b></div></div><div class="spark"><span style="height:65%"></span><span style="height:69%"></span><span style="height:70%"></span><span style="height:76%"></span><span style="height:54%"></span><span style="height:78%"></span></div><div style="color:#718987;font-size:10px;margin:10px 14px">By year · By education area · Explore records</div></div></div>
+        </div>
+        <div class="card tint">
+          <h3>What I added</h3>
+          <div class="check"><span class="mark">✓</span><span>Filters for year, education area and decision.</span></div>
+          <div class="check"><span class="mark">✓</span><span>Programme-name search.</span></div>
+          <div class="check"><span class="mark">✓</span><span>Approval statistics, charts and records.</span></div>
+          <div class="check"><span class="mark">✓</span><span>Download filtered data as CSV.</span></div>
+          <a class="biglink" style="margin-top:15px" href="https://myh-application.streamlit.app/" target="_blank" rel="noopener noreferrer">Open live Streamlit app ↗</a>
+        </div>
+      </div>
+      <div class="foot"><span>Evidence: <code>part_2/app.py</code> · Public deployment is a separate copy</span><span>10 / 11</span></div>
+    </section>
+
+    <!-- 11 -->
+    <section class="slide" aria-label="Reflection and links" tabindex="-1">
+      <p class="eyebrow">10 / Reflection & next steps</p>
+      <h2>What I learned</h2>
+      <p class="lead">Preparing useful data takes more than joining files together.</p>
+      <div class="body" style="display:flex;flex-direction:column;justify-content:center;gap:18px">
+        <div class="cols three">
+          <div class="card"><h3>Understand first</h3><p>I learned to inspect source files and verify column meanings before combining different years.</p></div>
+          <div class="card"><h3>Make careful decisions</h3><p>I learned why missing values, duplicate checks and target leakage matter for data quality.</p></div>
+          <div class="card"><h3>Check AI suggestions</h3><p>I used ChatGPT to understand pandas and Streamlit, then checked the code and results myself.</p></div>
+        </div>
+        <div class="card tint" style="padding:24px 28px">
+          <h3>My result</h3>
+          <p>A documented, reproducible preparation process; a cleaned dataset covering 2020–2025; and a Streamlit explorer. Further preparation would be needed before training an ML model.</p>
+          <a class="biglink" href="https://myh-application.streamlit.app/" target="_blank" rel="noopener noreferrer">Live dashboard ↗</a>
+          <a class="biglink" href="https://github.com/barbabarbara/MYH-Application" target="_blank" rel="noopener noreferrer">Public deployment repository ↗</a>
+        </div>
+        <p class="hint">The full source files and transformation notebook belong to the assignment repository. The public GitHub repository is only the deployment copy of the app and cleaned dataset.</p>
+      </div>
+      <div class="foot"><span>Evidence: Notebook §8 · Public links above</span><span>11 / 11</span></div>
+    </section>
+
+  </main>
+  <nav class="navarea" aria-label="Slide navigation">
+    <button id="prev" type="button" aria-label="Previous slide">← Previous</button>
+    <div class="progress" aria-hidden="true"><span id="bar"></span></div>
+    <div class="counter" id="counter" aria-live="polite">1 / 11</div>
+    <button id="next" type="button" aria-label="Next slide">Next →</button>
+    <button id="print" type="button" title="Print all slides or save as PDF">Print / PDF</button>
+    <span class="shortcuts">← → keys to navigate</span>
+  </nav>
+  <script>
+    (()=>{
+      const slides=Array.from(document.querySelectorAll('.slide'));
+      const prev=document.getElementById('prev'),next=document.getElementById('next');
+      const counter=document.getElementById('counter'),bar=document.getElementById('bar');
+      let idx=0;
+      function show(n,updateHash=true){
+        idx=Math.max(0,Math.min(n,slides.length-1));
+        slides.forEach((el,i)=>{el.classList.toggle('active',i===idx);el.setAttribute('aria-hidden',i===idx?'false':'true');});
+        prev.disabled=idx===0;next.disabled=idx===slides.length-1;
+        counter.textContent=`${idx+1} / ${slides.length}`;
+        bar.style.width=`${(idx+1)/slides.length*100}%`;
+        document.title=`${String(idx+1).padStart(2,'0')} / ${slides.length} · MYH Part 2 Presentation`;
+        if(updateHash)history.replaceState(null,'',`#slide-${idx+1}`);
+      }
+      prev.addEventListener('click',()=>show(idx-1));next.addEventListener('click',()=>show(idx+1));
+      document.getElementById('print').addEventListener('click',()=>window.print());
+      window.addEventListener('keydown',e=>{
+        if(e.altKey||e.ctrlKey||e.metaKey||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))return;
+        if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(idx+1)}
+        else if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(idx-1)}
+        else if(e.key==='Home'){e.preventDefault();show(0)}
+        else if(e.key==='End'){e.preventDefault();show(slides.length-1)}
+      });
+      window.addEventListener('hashchange',()=>{const m=location.hash.match(/^#slide-(\d+)$/);if(m)show(Number(m[1])-1,false)});
+      const m=location.hash.match(/^#slide-(\d+)$/);show(m?Number(m[1])-1:0,false);
+    })();
+  </script>
+</body>
+</html>
