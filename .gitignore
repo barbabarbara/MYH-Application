@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.pytest_cache/
+
+# Notebook and editor files
+.ipynb_checkpoints/
+.vscode/
+.idea/
+
+# Environment variables and Streamlit secrets
+.env
+.env.*
+.streamlit/secrets.toml
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+
+# Intentionally NOT ignored: data/processed/myh_applications_2020_2025.csv
